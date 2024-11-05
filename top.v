@@ -50,10 +50,10 @@ module top(
     );
     
     seven_seg_decoder decoder(
-        .A(A),
-        .B(B),
-        .AplusB(AplusB),
-        .AminusB(AminusB),
+        .operation(sw[3:0]),
+        .zero(4'b0),
+        .upperY(Y[7:4]),
+        .lowerY(Y[3:0]),
         .anode(an),
         .segs(seg)
     );

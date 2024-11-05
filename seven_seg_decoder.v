@@ -1,8 +1,8 @@
 module seven_seg_decoder(
-    input [3:0] A, // upperY
-    input [3:0] B, // lowerY
-    input [3:0] AplusB, // 0
-    input [3:0] AminusB,  // operation
+    input [3:0] upperY, // upperY
+    input [3:0] lowerY, // lowerY
+    input [3:0] zero, // 0
+    input [3:0] operation,  // operation
     input [3:0] anode,
     output reg [6:0] segs
 );
@@ -15,10 +15,10 @@ module seven_seg_decoder(
     // Recommended you do a simple behavioral implementation:
     always @(*) begin
         case (anode)
-            4'b1110: selected_sig <= A;
-            4'b1101: selected_sig <= B;
-            4'b1011: selected_sig <= AplusB;
-            4'b0111: selected_sig <= AminusB;
+            4'b1110: selected_sig <= operation;
+            4'b1101: selected_sig <= zero;
+            4'b1011: selected_sig <= lowerY;
+            4'b0111: selected_sig <= upperY;
         endcase
     end
 
