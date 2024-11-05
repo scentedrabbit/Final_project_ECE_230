@@ -123,29 +123,29 @@ module NEG(
     );
 endmodule
 
-module STO(
-    input [7:0] Y,
-    output [7:0] Y_out
-);
-    assign Y_out = Y;
-endmodule
+//module STO(
+//    input [7:0] Y,
+//    output [7:0] Y_out
+//);
+//    assign Y_out = Y;
+//endmodule
 
-module SWP(
-    input [7:0] A_in,
-    input [7:0] B_in,
-    output [7:0] A_out,
-    output [7:0] B_out
-    );
-    assign A_out = B_in;
-    assign B_out = A_in;
-endmodule
+//module SWP(
+//    input [7:0] A_in,
+//    input [7:0] B_in,
+//    output [7:0] A_out,
+//    output [7:0] B_out
+//    );
+//    assign A_out = B_in;
+//    assign B_out = A_in;
+//endmodule
 
-module LOAD(
-    input [7:0] A,
-    output [7:0] Y
-);
-    assign Y = A;
-endmodule
+//module LOAD(
+//    input [7:0] A,
+//    output [7:0] Y
+//);
+//    assign Y = A;
+////endmodule
 
 
 

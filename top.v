@@ -1,6 +1,5 @@
 module top(
-    input [3:0] sw, //sel
-    input [15:8] sw, //input bits
+    input [15:0] sw, //input bits
     input clk,
     input btnC,
     output [15:0] led, // [15:8] display A value, [7:0] for display B value
@@ -57,7 +56,7 @@ module top(
         .anode(an),
         .segs(seg)
     );
-     multiplexer mux(
+     multiplexer mux_y(
         .sel(sw[3:0]),
         .ADD(AplusB),
         .SUB(AminusB),
@@ -73,10 +72,51 @@ module top(
         .INV(INV),
         .NEG(NEG),
         .STO(Y),
-        //.SWP
-        .LOAD(A),
+        .SWP(Y),
+        .LOAD(Y),
         .data(Y)
-        
+    );
+    
+    multiplexer mux_A(
+        .sel(sw[3:0]),
+        .ADD(A),
+        .SUB(A),
+        .SHL(A),
+        .SHR(A),
+        .CMP(A),
+        .AND(A),
+        .OR(A),
+        .XOR(A),
+        .NAND(A),
+        .NOR(A),
+        .XNOR(A),
+        .INV(A),
+        .NEG(A),
+        .STO(Y),
+        .SWP(B),
+        .LOAD(sw[15:8]),
+        .data(A)
+    );
+    
+    multiplexer mux_B(
+        .sel(sw[3:0]),
+        .ADD(B),
+        .SUB(B),
+        .SHL(B),
+        .SHR(B),
+        .CMP(B),
+        .AND(B),
+        .OR(B),
+        .XOR(B),
+        .NAND(B),
+        .NOR(B),
+        .XNOR(B),
+        .INV(B),
+        .NEG(B),
+        .STO(B),
+        .SWP(A),
+        .LOAD(B),
+        .data(B)
     );
     
     ADD add(
@@ -155,19 +195,4 @@ module top(
         .Y(Y)
     );
     
-    STO sto(
-        .Y(Y),
-        .Y_out(A)
-    );
-    
-    SWP swp(
-        .A(A),
-        .B(B),
-        .Y(Y)
-    );
-    
-    LOAD load(
-        .A(A),
-        .Y(A)
-    );
 endmodule
