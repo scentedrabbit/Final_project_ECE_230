@@ -185,13 +185,11 @@ module top(
     
     INV inv(
         .A(A),
-        .B(B),
         .Y(Y)
     );
     
     NEG neg(
         .A(A),
-        .B(B),
         .Y(Y)
     );
     

@@ -110,16 +110,11 @@ endmodule
 
 module NEG(
     input [7:0] A,
-    input [7:0] B,
-    output [7:0] Y,
-    output Cout
+    output [7:0] Y
 );
-    ripple_full_adder sub(
-        .A(8'b0),
-        .B(~A),
-        .Cin(1'b1),
-        .Y(Y),
-        .Cout(Cout)
+    twos_complement sub(
+        .A(A),
+        .Y(Y)
     );
 endmodule
 
