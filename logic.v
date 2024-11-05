@@ -31,14 +31,14 @@ endmodule
 
 module SHL(
     input [7:0] A,
-    output [7:0] Y,
+    output [7:0] Y
 );
     assign Y = A << 1;
 endmodule
 
 module SHR(
     input [7:0] A,
-    output [7:0] Y,
+    output [7:0] Y
 );
     assign Y = A >> 1;
 endmodule

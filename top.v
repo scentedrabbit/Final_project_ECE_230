@@ -11,7 +11,7 @@ module top(
     wire div_clock;
     reg [7:0] A;
     reg [7:0] B;
-    wire [7:0] Y;
+    reg [7:0] Y;
     wire [7:0] AplusB;
     wire [7:0] AminusB;
     wire [7:0] SHL;
@@ -26,14 +26,37 @@ module top(
     wire [7:0] INV;
     wire [7:0] NEG;
     
-  
-   
-    
-    
     assign led[15:8] = A;
     assign led[7:0] = B;
     
+    always @(posedge clk or posedge btnC) begin
+        if (btnC) begin
+            A <= 8'b0;
+            B <= 8'b0;
+            Y <= 8'b0;
+        end
+    end
     
+    clock_divs clock(
+        .clock(clk),
+        .reset(btnC),
+        .div_clk(div_clock)
+    );
+    
+    seven_seg_scanner scanner(
+        .div_clock(div_clock),
+        .reset(btnC),
+        .anode(an)
+    );
+    
+    seven_seg_decoder decoder(
+        .A(A),
+        .B(B),
+        .AplusB(AplusB),
+        .AminusB(AminusB),
+        .anode(an),
+        .segs(seg)
+    );
      multiplexer mux(
         .sel(sw[3:0]),
         .ADD(AplusB),
@@ -50,10 +73,101 @@ module top(
         .INV(INV),
         .NEG(NEG),
         .STO(Y),
-        //.SWP,
+        //.SWP
         .LOAD(A),
         .data(Y)
         
     );
     
+    ADD add(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    SUB sub(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    SHL shl(
+        .A(A),
+        .Y(Y)
+    );
+    
+    SHR shr(
+        .A(A),
+        .Y(Y)
+    );
+    
+    CMP cmp(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    AND and1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    OR or1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+
+    XOR xor1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    NAND nand1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    NOR nor1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    XNOR xnor1(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    INV inv(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    NEG neg(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    STO sto(
+        .Y(Y),
+        .Y_out(A)
+    );
+    
+    SWP swp(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );
+    
+    LOAD load(
+        .A(A),
+        .Y(A)
+    );
 endmodule
