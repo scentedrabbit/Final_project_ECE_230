@@ -20,6 +20,10 @@ module SUB(
     output [7:0] Y,
     output Cout
 );
+    // WOW this is brilliant
+    // You're doing the twos compliment
+    // and addition in one go
+    // I really really like this
     ripple_full_adder sub(
         .A(A),
         .B(~B),
