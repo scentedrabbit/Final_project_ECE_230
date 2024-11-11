@@ -122,29 +122,29 @@ module top(
     ADD add(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(Y) // Should be AplusB
     );
     
     SUB sub(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(Y) // should be AminusB
     );
     
     SHL shl(
         .A(A),
-        .Y(Y)
+        .Y(Y) // Should be SHL
     );
     
     SHR shr(
         .A(A),
-        .Y(Y)
+        .Y(Y) // should be SHR...
     );
     
     CMP cmp(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(Y) // ... etc
     );
     
     AND and1(
