@@ -2,6 +2,7 @@ module top(
     input [15:0] sw, //input bits
     input clk,
     input btnC,
+    input btnU,
     output [15:0] led, // [15:8] display A value, [7:0] for display B value
     output [6:0] seg, //display segments 
     output [3:0] an //display anodes
@@ -24,27 +25,34 @@ module top(
     wire [7:0] XNOR;
     wire [7:0] INV;
     wire [7:0] NEG;
+    wire [7:0] nextA;
+    wire [7:0] nextB;
+    wire [7:0] nextY;
     
     assign led[15:8] = A;
     assign led[7:0] = B;
     
-    always @(posedge clk or posedge btnC) begin
-        if (btnC) begin
+    always @(posedge btnC or posedge btnU) begin
+        if (btnU) begin
             A <= 8'b0;
             B <= 8'b0;
             Y <= 8'b0;
+        end else begin
+            A <= nextA;
+            B <= nextB;
+            Y <= nextY;
         end
     end
     
     clock_divs clock(
         .clock(clk),
-        .reset(btnC),
+        .reset(btnU),
         .div_clk(div_clock)
     );
     
     seven_seg_scanner scanner(
         .div_clock(div_clock),
-        .reset(btnC),
+        .reset(btnU),
         .anode(an)
     );
     
@@ -74,7 +82,7 @@ module top(
         .STO(Y),
         .SWP(Y),
         .LOAD(Y),
-        .data(Y)
+        .data(nextY)
     );
     
     multiplexer mux_A(
@@ -95,7 +103,7 @@ module top(
         .STO(Y),
         .SWP(B),
         .LOAD(sw[15:8]),
-        .data(A)
+        .data(nextA)
     );
     
     multiplexer mux_B(
@@ -116,81 +124,81 @@ module top(
         .STO(B),
         .SWP(A),
         .LOAD(B),
-        .data(B)
+        .data(nextB)
     );
     
     ADD add(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(AplusB)
     );
     
     SUB sub(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(AminusB)
     );
     
     SHL shl(
         .A(A),
-        .Y(Y)
+        .Y(SHL)
     );
     
     SHR shr(
         .A(A),
-        .Y(Y)
+        .Y(SHR)
     );
     
     CMP cmp(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(CMP)
     );
     
     AND and1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(AND)
     );
     
     OR or1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(OR)
     );
 
     XOR xor1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(XOR)
     );
     
     NAND nand1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(NAND)
     );
     
     NOR nor1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(NOR)
     );
     
     XNOR xnor1(
         .A(A),
         .B(B),
-        .Y(Y)
+        .Y(XNOR)
     );
     
     INV inv(
         .A(A),
-        .Y(Y)
+        .Y(INV)
     );
     
     NEG neg(
         .A(A),
-        .Y(Y)
+        .Y(NEG)
     );
     
 endmodule
